@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+
 const logout = require('../controllers/logoutController');
 const passwordCh = require('../controllers/passwordChangeController');
 const question = require('../controllers/questionController');
 const score = require('../controllers/scoreController');
+
 const authMW = require('../middlewares/auth');
 const deviceCheck = require('../middlewares/deviceCheck');
+
 const { questionRules, validateQuestion } = require('../validators/questionValidator');
 const { scoreRules, validateScore } = require('../validators/scoreValidator');
 const { passwordRules, validatePassword } = require('../validators/passwordValidator');
