@@ -1,12 +1,19 @@
-//mock
+//transfered for login
 const checkNewUser = (req, res, next) => {
-    // Check if the user is already registered
-    if (req.session && req.session.user) {
-        // If user is already registered, redirect to the home page
-        return res.redirect('/');
+    const { email } = req.body;    
+    const sql = 'SELECT status FROM users WHERE email = ?';
+
+    db.query(sql, [email], (err, results) => {
+    if (err) {
+        console.error(err);
+        // handle error
+    } else if (results.length === 0) {
+        console.log('User not found');
+    } else {
+        console.log('User status:', results[0].status);
     }
-    
-    // If user is not registered, proceed to the next middleware or route handler
+    });
+
     next();
     }
 
