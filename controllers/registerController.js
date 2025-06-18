@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 const registerController = (req, res) => {
+
     const { email, password, uploadedFileName, streams, semisters} = req.body;
     const filePath = path.join(__dirname, "..", "images", "paymentPic", uploadedFileName);
 
