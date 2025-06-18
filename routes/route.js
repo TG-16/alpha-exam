@@ -6,8 +6,8 @@ const passwordCh = require('../controllers/passwordChangeController');
 const question = require('../controllers/questionController');
 const score = require('../controllers/scoreController');
 
-const authMW = require('../middlewares/auth');
-const deviceCheck = require('../middlewares/deviceCheck');
+const authMW = require('../utils/auth');
+const deviceCheck = require('../utils/deviceCheck');
 
 const { questionRules, validateQuestion } = require('../validators/questionValidator');
 const { scoreRules, validateScore } = require('../validators/scoreValidator');

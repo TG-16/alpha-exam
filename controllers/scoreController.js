@@ -1,52 +1,32 @@
 const db = require("../models/db");
 
-exports.submit = (req, res) => {
-  try {
-    const {
-      university_id,
-      stream_id,
-      year_id,
-      subject_id,
-      semester_id,
-      score,
-    } = req.body;
-    if (
-      !university_id ||
-      !stream_id ||
-      !year_id ||
-      !subject_id ||
-      !semester_id ||
-      typeof score !== "number"
-    ) {
-      return res.status(400).json({ message: "Invalid score submission data" });
+exports.fetch = (req, res) => {
+  const {
+    university_id,
+    stream_id,
+    year_id,
+    subject_id,
+    semester_id,
+    exam_id,
+  } = req.body;
+  const sql = `SELECT question_id, question, choices, answer, description
+               FROM questions WHERE university_id = ? AND stream_id = ? AND year_id = ?
+               AND subject_id = ? AND semester_id = ? AND exam_id = ?`;
+  const values = [
+    university_id,
+    stream_id,
+    year_id,
+    subject_id,
+    semester_id,
+    exam_id,
+  ];
+  db.query(sql, values, (err, rows) => {
+    if (err) {
+      console.error("Question fetch error:", err);
+      return res
+        .status(500)
+        .json({ message: "Database error while fetching questions" });
     }
-    const sql = `INSERT INTO score (user_id, university_id, stream_id, year_id, subject_id, semester_id, score)
-                 VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    const values = [
-      req.user.id,
-      university_id,
-      stream_id,
-      year_id,
-      subject_id,
-      semester_id,
-      score,
-    ];
-    db.query(sql, values, (err, result) => {
-      if (err) {
-        console.error("Score submission error:", err);
-        return res.status(500).json({ message: "Failed to submit score" });
-      }
-      res
-        .status(201)
-        .json({
-          message: "Score submitted successfully",
-          scoreId: result.insertId,
-        });
-    });
-  } catch (error) {
-    console.error("Submit score exception:", error);
-    res
-      .status(500)
-      .json({ message: "Unexpected server error submitting score" });
-  }
+    res.status(200).json({ questions: rows });
+  });
 };
