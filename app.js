@@ -3,8 +3,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config({ path: __dirname + "/../utils/.env" });
 const routes = require("./routes/route.js");
-
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -26,4 +26,4 @@ app.listen(PORT, () => {
 });
 
 //Check MySQL connection
-const pool = require("./models/db");
+// const pool = require("./models/db");

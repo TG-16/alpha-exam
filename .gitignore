@@ -1,6 +1,7 @@
-.gitignore
 utils/.env
-test.postman_collection.json
-node_modules
-node_modules/.package-lock.json
+
+node_modules/
+
 package-lock.json
+
+test.postman_collection.json
