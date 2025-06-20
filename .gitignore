@@ -1,8 +1,7 @@
-# Environment variables
 utils/.env
 
-# Node dependencies
 node_modules/
 
-# Optional: ignore lock file if you don’t want to track it
 package-lock.json
+
+test.postman_collection.json

@@ -1,16 +1,29 @@
-const express = require('express');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+require("dotenv").config({ path: __dirname + "/../utils/.env" });
+const routes = require("./routes/route.js");
 const app = express();
-require('dotenv').config({ path: __dirname + '/../utils/.env' });
-const route = require("./routes/route.js");
 
-// Middleware to parse JSON bodies
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
-// Basic Routes
-app.use(route);
+// Routes
+app.use(routes);
 
-// Start Server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${process.env.PORT}`);
+// Root health check
+app.get("/", (req, res) => {
+  res.send("Freshman Exam Backend API running ✅");
 });
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+//Check MySQL connection
+// const pool = require("./models/db");
