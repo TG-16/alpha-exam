@@ -11,6 +11,8 @@ const updateExistingUser = require('../utils/updateExistingUser');
 const loginController = require('../controllers/loginController');
 const loginValidator = require('../validators/loginValidator');
 const upload = require('../utils/multer');
+const freetrialController = require("../controllers/freetrialController");
+const dashboardController = require('../controllers/dashboardController');
 
 const authMW = require('../utils/auth');
 const deviceCheck = require('../utils/deviceCheck');
@@ -19,15 +21,31 @@ const { questionRules, validateQuestion } = require('../validators/questionValid
 const { scoreRules, validateScore } = require('../validators/scoreValidator');
 const { passwordRules, validatePassword } = require('../validators/passwordValidator');
 
-router.post('/logout', authMW, logout);
-router.post('/change-password',authMW, passwordRules, validatePassword, passwordCh);
-router.post('/questions/fetch', authMW, deviceCheck, questionRules, validateQuestion, question.fetch);
-router.post('/scores/submit', authMW, deviceCheck, scoreRules, validateScore, score.submit);
+console.log('question:', question);
+console.log('passwordCh:', passwordCh);
+console.log('score:', score);
+console.log('logout:', logout);
+console.log('registerController:', registerController);
+console.log('registerValidator:', registerValidator);
+console.log('updateExistingUser:', updateExistingUser);
+console.log('loginController:', loginController);
+console.log('loginValidator:', loginValidator);
+console.log('authMW:', authMW);
+console.log('deviceCheck:', deviceCheck);
+
+
+
+router.post('/logout', authMW, logout.logout);
+router.post('/change-password',authMW, passwordRules, validatePassword, passwordCh.changePassword);
+router.post('/questions/fetch', authMW, deviceCheck, questionRules, validateQuestion, question.submit);
+router.post('/scores/submit', authMW, deviceCheck, scoreRules, validateScore, score.fetch);
 
 
 //Register route
 router.post('/signup' ,upload.single("paymentPhoto")  ,registerValidator ,updateExistingUser ,  registerController);
 router.post("/login", loginValidator, loginController);
+router.get("/freetrial", freetrialController);
+router.get("/dashboard/:userId", dashboardController);
 
 // router.get("/", (req, res) => {
 //     res.status(200).json({ message: "Welcome to the registration API" });
