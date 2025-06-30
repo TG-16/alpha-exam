@@ -11,6 +11,8 @@ const updateExistingUser = require('../utils/updateExistingUser');
 const loginController = require('../controllers/loginController');
 const loginValidator = require('../validators/loginValidator');
 const upload = require('../utils/multer');
+const freetrialController = require("../controllers/freetrialController");
+const dashboardController = require('../controllers/dashboardController');
 
 const authMW = require('../utils/auth');
 const deviceCheck = require('../utils/deviceCheck');
@@ -42,6 +44,8 @@ router.post('/scores/submit', authMW, deviceCheck, scoreRules, validateScore, sc
 //Register route
 router.post('/signup' ,upload.single("paymentPhoto")  ,registerValidator ,updateExistingUser ,  registerController);
 router.post("/login", loginValidator, loginController);
+router.get("/freetrial", freetrialController);
+router.get("/dashboard/:userId", dashboardController);
 
 // router.get("/", (req, res) => {
 //     res.status(200).json({ message: "Welcome to the registration API" });

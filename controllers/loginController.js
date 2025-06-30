@@ -29,6 +29,8 @@ const loginController = (req,res) => {
             return res.status(201).json({message: "invalid payment detail", user});
         }
 
+
+        // Redirect to dashboard after successful login res.redirect('/dashboard'); 
         res.status(200).json({message: 'Login successful', user});
     });
 }

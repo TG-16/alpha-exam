@@ -1,10 +1,10 @@
 const db = require("../models/db");
 
 exports.submit = (req, res) => {
-  const { university_id, stream_id, year_id, subject_id, semester_id, score } =
+  const { university_id, stream_id, year_id, subject_id, semester_id, exam_id, score } =
     req.body;
-  const sql = `INSERT INTO score (user_id, university_id, stream_id, year_id, subject_id, semester_id, score)
-               VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO score (user_id, university_id, stream_id, year_id, subject_id, semester_id,exam_id, score)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   const values = [
     req.user.id,
     university_id,
@@ -12,6 +12,7 @@ exports.submit = (req, res) => {
     year_id,
     subject_id,
     semester_id,
+    exam_id ,
     score,
   ];
   db.query(sql, values, (err, result) => {

@@ -3,7 +3,9 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config({ path: __dirname + "/../utils/.env" });
 const routes = require("./routes/route.js");
+const morgan = require("morgan");
 const app = express();
+// const session = require("express-session");
 
 const PORT = process.env.PORT || 3000;
 
@@ -11,6 +13,13 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan("dev"));
+// app.use(express.urlencoded({ extended: true }));
+// app.use(session({
+//   secret: 'teddy-secret',
+//   resave: false,
+//   saveUninitialized: true
+// }));
 
 // Routes
 app.use(routes);
