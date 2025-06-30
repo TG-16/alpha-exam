@@ -45,7 +45,7 @@ router.post('/scores/submit', authMW, deviceCheck, scoreRules, validateScore, sc
 router.post('/signup' ,upload.single("paymentPhoto")  ,registerValidator ,updateExistingUser ,  registerController);
 router.post("/login", loginValidator, loginController);
 router.get("/freetrial", freetrialController);
-router.get("/dashboard/:userId", dashboardController);
+router.get("/dashboard/:userId", authMW, dashboardController);
 
 // router.get("/", (req, res) => {
 //     res.status(200).json({ message: "Welcome to the registration API" });
