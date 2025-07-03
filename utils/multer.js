@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     const originalName = path.basename(file.originalname);
     const newFileName = Date.now() + originalName;
     
-    req.body.uploadedFileName = newFileName;
+    // req.file.uploadedFileName = newFileName;
 
     cb(null, newFileName);
   }

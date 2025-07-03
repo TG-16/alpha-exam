@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 exports.changePassword = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user_id;
     const { newPassword } = req.body;
     const hash = await bcrypt.hash(newPassword, 10);
     const sql = "UPDATE users SET password = ? WHERE user_id = ?";

@@ -2,7 +2,11 @@ const db = require('../models/db');
 const path = require('path');
 
 const updateExistingUser = (req, res, next) => {
-    const { email, password, uploadedFileName, streams, semisters, status } = req.body;
+    //email also must be sent to the b from f
+    const { email } = req.body;
+    let { password } = req.body;
+    const uploadedFileName = req.file?.filename;
+    const status = 'inactive';
 
     const userCheckQuery = 'SELECT * FROM users WHERE email = ?';
     db.query(userCheckQuery, [email], (err, results) => {
@@ -13,18 +17,23 @@ const updateExistingUser = (req, res, next) => {
 
         if (results.length > 0 && results[0].status === 'Invalid') {
             if (!uploadedFileName) {
-                return res.status(400).json({ error: "Payment photo is required." });
+                return res.status(400).json({ error: "Payment photo is required1." });
             }
 
             const fullPhotoPath = path.join("images", "paymentPic", uploadedFileName);
-            const stringifyStreams = JSON.stringify(streams);
-            const stringifySemisters = JSON.stringify(semisters);
 
             const updateQuery = `UPDATE users 
-                SET email = ?, password = ?, photo_url = ?, status = ?, streams = ?, semisters = ?
+                SET password = ?, photo_url = ?, status = ?
                 WHERE email = ?`;
 
-            db.query(updateQuery, [email, password, fullPhotoPath, status, stringifyStreams, stringifySemisters, email], (err, result) => {
+            const saltRounds = 10;
+            bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+                    if (err) {
+                    return res.status(500).json({ error: "Failed to hash password" });
+                    password = hashedPassword;
+            }});
+
+            db.query(updateQuery, [password, fullPhotoPath, status, email], (err, result) => {
                 if (err) {
                     console.error("Update error:", err);
                     return res.status(500).json({ message: "Update failed" });
