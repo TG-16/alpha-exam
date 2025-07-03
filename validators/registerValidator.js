@@ -4,22 +4,24 @@ const path = require('path');
 function validateRegister(req, res, next) {
   // console.log("Validating registration data:\n", JSON.stringify(req.body, null, 2));
 
-  const { email, password, confirmPassword, uploadedFileName, streams, semisters } = req.body;
+  const { email, password, selectedSemesters} = req.body;
+  const uploadedFileName = req.file?.filename;
   const filePath = path.join(__dirname, "..", "images", "paymentPic", uploadedFileName);
 
-  if (!email || !password || !confirmPassword  || !streams || !semisters) {
+  if (!email || !password  || !selectedSemesters) {
     fs.unlink(filePath, (unlinkErr) => {
       if (unlinkErr) console.error("Failed to delete file after DB error:", unlinkErr);
     });
+    console.log("File upload failed or no file provided. semisters");
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  if (password !== confirmPassword) {
-    fs.unlink(filePath, (unlinkErr) => {
-      if (unlinkErr) console.error("Failed to delete file after DB error:", unlinkErr);
-    });
-    return res.status(400).json({ error: 'Passwords do not match.' });
-  }
+  // if (password !== confirmPassword) {
+  //   fs.unlink(filePath, (unlinkErr) => {
+  //     if (unlinkErr) console.error("Failed to delete file after DB error:", unlinkErr);
+  //   });
+  //   return res.status(400).json({ error: 'Passwords do not match.' });
+  // }
 
   if (password.length < 6) {
     fs.unlink(filePath, (unlinkErr) => {

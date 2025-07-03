@@ -42,7 +42,7 @@ router.post('/scores/submit', authMW, deviceCheck, scoreRules, validateScore, sc
 
 
 //Register route
-router.post('/signup' ,upload.single("paymentPhoto")  ,registerValidator ,updateExistingUser ,  registerController);
+router.post('/signup' ,upload.single("screenshot")  ,registerValidator ,updateExistingUser ,  registerController);
 router.post("/login", loginValidator, loginController);
 router.get("/freetrial", freetrialController);
 router.get("/dashboard/:userId", authMW, dashboardController);
